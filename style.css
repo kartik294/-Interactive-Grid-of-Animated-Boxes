@@ -11,15 +11,20 @@ body {
     min-height: 100vh;
     background: linear-gradient(45deg, #141e30, #243b55);
     font-family: Arial, sans-serif;
+    overflow: hidden; /* Prevent body overflow */
 }
 
 .container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); /* Two columns on larger screens */
     gap: 20px;
-    width: 90vw; /* Adjust width to fit within the viewport */
-    height: 90vh; /* Adjust height to fit within the viewport */
+    width: 90vw;
+    max-width: 1200px;
+    height: auto; /* Allow height to adjust based on content */
+    max-height: calc(100vh - 20px); /* Adjust max-height to fit viewport height without overflow */
+    margin: auto;
+    padding: 10px;
+    overflow: hidden; /* Prevent scrolling within container */
 }
 
 .container .box {
@@ -27,13 +32,16 @@ body {
     border-radius: 20px;
     overflow: hidden;
     position: relative;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
     cursor: pointer;
+    aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
+    width: 100%; /* Fill container width */
+    height: 200px; /* Fixed height */
 }
 
 .container .box:hover {
-    transform: scale(1.05);
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    transform: scale(1.05); /* Slight zoom effect on hover */
 }
 
 .container .box::before {
@@ -46,11 +54,36 @@ body {
     height: 0;
     background: var(--clr);
     border-radius: 50%;
-    transition: width 0.5s, height 0.5s, top 0s, left 0s;
+    transition: width 0.5s, height 0.5s;
     box-shadow: 0 0 50px var(--clr);
 }
 
 .container .box:hover::before {
-    width: 400px;
-    height: 400px;
+    width: 200px; /* Adjust size for better visibility */
+    height: 200px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust card width for medium screens */
+        max-height: 100vh; /* Allow height to adjust based on content */
+    }
+
+    .container .box {
+        height: 150px; /* Adjust height for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        grid-template-columns: 1fr; /* Single column for very small screens */
+        max-height: 100vh; /* Allow height to adjust based on content */
+        width: 100vw; /* Full width on very small screens */
+        padding: 5px; /* Reduced padding for very small screens */
+    }
+
+    .container .box {
+        height: 120px; /* Further adjust height for very small screens */
+    }
 }
